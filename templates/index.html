@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <title>@lottiefiles/dotlottie-web | basic example</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      width: 800px;
+      height: 800px;
+      border: 2px solid #000000;
+      overflow: hidden;
+      margin: auto;
+      position: relative;
+    }
+    #canvas1 {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120%;
+      height: 130%;
+      max-width: 1000px;
+      max-height: 1000px;
+    }
+    #canvas2 {
+      width: 100%;
+      height: 100%;
+      max-width: 800px;
+      max-height: 800px;
+    }
+    #canvas3 {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      height: 100%;
+      max-width: 700px;
+      max-height: 700px;
+    }
+    #text {
+      position: absolute;
+      top: 10%;
+      left: 7%;
+      transform: translate(0, -50%);
+      font-family: 'Inter', sans-serif;
+      font-style: normal;
+      font-weight: 700;
+      font-size: 50px;
+      line-height: 40px;
+      text-align: left;
+      color: #265599;
+    }
+    #surprise-text {
+      position: absolute;
+      bottom: 8.8%;
+      left: 50%;
+      transform: translate(-50%, 0);
+      font-family: Inter;
+      font-style: normal;
+      font-size: 18px;
+      font-weight: 100;
+      line-height: 24px;
+      text-align: center;
+      color: #6464E0;
+      display: inline-block;
+      z-index: 1;
+      pointer-events: none;
+    }
+    #dynamic-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Inter', sans-serif;
+      font-style: italic;
+      font-size: 22px;
+      line-height: 24px;
+      text-align: center;
+      color: #ffffff;
+      display: none;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <div id="text"><u>Oops! 404 error detected</u></div>
+  <canvas id="canvas1"></canvas>
+  <canvas id="canvas2" style="display: none;"></canvas>
+  <canvas id="canvas3" style="display: none;"></canvas>
+  <div id="surprise-text">Click on me for a surprise</div>
+  <div id="dynamic-text"></div>
+  <script type="module">
+    import { DotLottie } from "https://cdn.jsdelivr.net/npm/@lottiefiles/dotlottie-web/+esm";
+    let currentAnimation1, currentAnimation2, currentAnimation3;
+
+    currentAnimation1 = new DotLottie({
+      autoplay: true,
+      loop: true,
+      canvas: document.getElementById("canvas1"),
+      src: "https://lottie.host/95c381db-5a21-4768-bd7a-c4dc43b7c49b/o8cvNVPVzn.json",
+      scale: "fit",
+      scaleMode: "both",
+    });
+
+    document.getElementById("canvas1").addEventListener("click", () => {
+      currentAnimation1.destroy();
+      document.getElementById("canvas1").style.display = "none";
+      document.getElementById("surprise-text").style.display = "none";
+      document.getElementById("canvas2").style.display = "block";
+      document.getElementById("text").style.display = "none";
+
+      currentAnimation2 = new DotLottie({
+        autoplay: true,
+        loop: false,
+        canvas: document.getElementById("canvas2"),
+        src: "https://lottie.host/0e0ba1fb-2475-4350-a3c2-d0aad6dd8661/SltYwtvnLq.json",
+      });
+
+      setTimeout(() => {
+        currentAnimation2.destroy();
+        document.getElementById("canvas2").style.display = "none";
+        document.getElementById("canvas3").style.display = "block";
+
+        currentAnimation3 = new DotLottie({
+          autoplay: true,
+          loop: false,
+          canvas: document.getElementById("canvas3"),
+          src: "https://lottie.host/8290e6e5-90f0-4c4e-ad6e-2e792bbe901a/WdKLRhhAZg.json",
+        });
+
+        currentAnimation3.addEventListener("complete", displayDynamicText);
+      }, 2680);
+    });
+
+    const displayDynamicText = () => {
+      const dynamicText = document.getElementById("dynamic-text");
+      fetch('/random-text')
+        .then(response => response.text())
+        .then(text => {
+          dynamicText.innerHTML = text;
+          dynamicText.style.display = "block";
+        });
+    };
+  </script>
+</body>
+</html>
