@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <title>Random Jokes, Facts, and Poems</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      width: 800px;
+      height: 800px;
+      border: 2px solid #000000;
+      overflow: hidden;
+      margin: auto;
+      position: relative;
+    }
+    #canvas1 {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120%;
+      height: 130%;
+      max-width: 1000px;
+      max-height: 1000px;
+    }
+    #canvas2 {
+      width: 100%;
+      height: 100%;
+      max-width: 800px;
+      max-height: 800px;
+    }
+    #canvas3 {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      height: 100%;
+      max-width: 700px;
+      max-height: 700px;
+    }
+    #text {
+      position: absolute;
+      top: 10%;
+      left: 7%;
+      transform: translate(0, -50%);
+      font-family: 'Inter', sans-serif;
+      font-style: normal;
+      font-weight: 700;
+      font-size: 50px;
+      line-height: 40px;
+      text-align: left;
+      color: #265599;
+    }
+    #surprise-text {
+      position: absolute;
+      bottom: 8.8%;
+      left: 50%;
+      transform: translate(-50%, 0);
+      font-family: Inter;
+      font-style: normal;
+      font-size: 18px;
+      font-weight: 100;
+      line-height: 24px;
+      text-align: center;
+      color: #6464E0;
+      display: inline-block;
+      z-index: 1;
+      pointer-events: none;
+    }
+    #dynamic-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Inter', sans-serif;
+      font-style: italic;
+      font-size: 22px;
+      line-height: 24px;
+      text-align: center;
+      color: #ffffff;
+      display: none;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <div id="text"><u>Oops! 404 error detected</u></div>
+  <canvas id="canvas1"></canvas>
+  <canvas id="canvas2" style="display: none;"></canvas>
+  <canvas id="canvas3" style="display: none;"></canvas>
+  <div id="surprise-text">Click on me for a surprise</div>
+  <div id="dynamic-text"></div>
+  <script type="module">
+    import { DotLottie } from "https://cdn.jsdelivr.net/npm/@lottiefiles/dotlottie-web/+esm";
+
+    let currentAnimation1, currentAnimation2, currentAnimation3;
+    const dadJokes = [
+    "Why don't skeletons fight each other? They don't have the guts.",
+    "I would avoid the sushi if I was you. It's a little fishy.",
+    "What do you call fake spaghetti? An impasta!",
+    "Want to hear a joke about paper? Nevermind, it's tearable.",
+    "Why did the scarecrow win an award? Because he was outstanding in his field.",
+    "Why don't skeletons ever go trick or treating? Because they have no body to go with.",
+    "Why don't some couples go to the gym? Because some relationships don't work out.",
+    "I'm reading a book on anti-gravity. It's impossible to put down!",
+    "What do you call cheese that isn't yours? Nacho cheese.",
+    "This graveyard looks overcrowded. People must be dying to get in.",
+    "Why don't scientists trust atoms? Because they make up everything!",
+    "What do you call an alligator in a vest? An in-vest-igator.",
+    "Why did the bicycle fall over? Because it was two-tired.",
+    "I'm on a seafood diet. I see food and I eat it.",
+    "Why don't some fish play piano? Because you can't tuna fish.",
+    "What's orange and sounds like a parrot? A carrot!",
+    "Want to hear a joke about construction? I'm still working on it.",
+    "I used to play piano by ear, but now I use my hands.",
+    "How does a penguin build its house? Igloos it together.",
+    "Why don't programmers like nature? It has too many bugs.",
+    "Why was the math book sad? It had too many problems.",
+    "I only know 25 letters of the alphabet. I don't know y.",
+    "How do you make holy water? You boil the hell out of it.",
+    "Have you heard about the new restaurant on the moon? Great food, no atmosphere.",
+    "I used to be a baker, but I couldn't make enough dough.",
+    "What did the janitor say when he jumped out of the closet? Supplies!",
+    "Why couldn't the bicycle stand up by itself? It was two-tired.",
+    "Why don't vampires go to barbecues? They don't like steak.",
+    "What do you call a snowman with a six-pack? An abdominal snowman.",
+    "Why was the computer cold? It left its Windows open.",
+    "Why did the golfer bring two pairs of pants? In case he got a hole in one.",
+    "Why don't you ever see elephants hiding in trees? Because they're so good at it.",
+    "Did you hear about the circus fire? It was in tents.",
+    "What's brown and sticky? A stick.",
+    "How do you organize a space party? You planet.",
+    "What do you call a bear with no teeth? A gummy bear.",
+    "Why was the stadium so cool? It was filled with fans.",
+    "What do you call a fish with no eyes? A fsh.",
+    "Why did the tomato turn red? Because it saw the salad dressing.",
+    "Why did the cookie go to the hospital? Because it felt crummy.",
+    "Why don't we ever tell secrets on a farm? Because the potatoes have eyes and the corn has ears.",
+    "How do you catch a squirrel? Climb a tree and act like a nut.",
+    "Why did the banana go to the doctor? Because it wasn't peeling well.",
+    "Why did the math teacher get a tattoo? To show off his prime factors.",
+    "Why was the broom late? It swept in.",
+    "What did one hat say to the other? Stay here, I'm going on ahead.",
+    "What did one ocean say to the other ocean? Nothing, they just waved.",
+    "How do you make a tissue dance? You put a little boogie in it.",
+    "What do you call a cow with no legs? Ground beef.",
+    "Why did the scarecrow become a neurosurgeon? He was outstanding in his field.",
+    "What did the zero say to the eight? Nice belt!",
+    "How does a taco say grace? Lettuce pray.",
+    "Why don't seagulls fly over the bay? Because then they'd be bagels.",
+    "Why do fish always sing off key? Because you can't tuna fish.",
+    "Why don't eggs tell jokes? They'd crack each other up.",
+    "What did one plate say to the other plate? Lunch is on me.",
+    "Why did the man put his money in the blender? He wanted to make some liquid assets.",
+    "Why are skeletons so calm? Because nothing gets under their skin.",
+    "Why don't skeletons play music in church? They have no organs.",
+    "What's a skeleton's least favorite room in the house? The living room.",
+    "Why didn't the vampire attack Taylor Swift? She had bad blood.",
+    "Why don't some fish play the piano? Because you can't tuna fish.",
+    "What do you call an apology written in dots and dashes? Remorse code.",
+    "Why did the scarecrow become a motivational speaker? He was outstanding in his field.",
+    "Why did the physics teacher break up with the biology teacher? There was no chemistry.",
+    "Why do cows wear bells? Because their horns don't work.",
+    "Why don't some people eat clocks? It's too time-consuming.",
+    "How do you organize a space party? You planet.",
+    "What do you call fake spaghetti? An impasta!",
+    "Why did the music teacher need a ladder? To reach the high notes.",
+    "What do you call a sleeping bull? A bulldozer.",
+    "Why did the scarecrow get promoted? He was outstanding in his field.",
+    "Why did the bicycle fall over? Because it was two-tired.",
+    "What did one wall say to the other? I'll meet you at the corner.",
+    "Why don't some animals play cards? Because there are too many cheetahs.",
+    "Why was the computer cold? It left its Windows open.",
+    "What did the janitor say when he jumped out of the closet? Supplies!",
+    "Why did the golfer bring two pairs of pants? In case he got a hole in one.",
+    "What's brown and sticky? A stick.",
+    "Why did the math book look sad? Because it had too many problems.",
+    "What did one hat say to the other? Stay here, I'm going on ahead.",
+    "What do you call a snowman with a six-pack? An abdominal snowman.",
+    "Why did the scarecrow win an award? Because he was outstanding in his field.",
+    "What's orange and sounds like a parrot? A carrot!",
+    "Why did the scarecrow get a promotion? He was outstanding in his field.",
+    "How do you make holy water? You boil the hell out of it.",
+    "What did one ocean say to the other ocean? Nothing, they just waved.",
+    "Why do cows have hooves instead of feet? Because they lactose.",
+    "What do you call an alligator in a vest? An in-vest-igator.",
+    "Why did the cookie go to the hospital? Because it felt crummy.",
+    "Why don't vampires go to barbecues? They don't like steak.",
+    "Why did the tomato turn red? Because it saw the salad dressing.",
+    "Why did the physics teacher break up with the biology teacher? There was no chemistry.",
+    "Why don't you ever see elephants hiding in trees? Because they're so good at it.",
+    "How do you make a tissue dance? You put a little boogie in it.",
+    "What do you call cheese that isn't yours? Nacho cheese.",
+    "Why do fish always sing off key? Because you can't tuna fish.",
+    "Why are skeletons so calm? Because nothing gets under their skin."
+      // Add more jokes here...
+    ];
+    const geekyFacts = [
+    "The first computer virus was created in 1983 and was called \"Elk Cloner.\"",
+    "The first 1GB hard drive, released in 1980, weighed over 500 pounds and cost $40,000.",
+    "The original name of Windows was Interface Manager.",
+    "The QWERTY keyboard layout was designed to slow down typing speed to prevent typewriter jams.",
+    "The first computer mouse was made of wood.",
+    "The Firefox logo isn’t a fox; it’s a red panda.",
+    "The first email was sent by Ray Tomlinson to himself in 1971.",
+    "HP, Google, Microsoft, and Apple were all started in garages.",
+    "The first domain name ever registered was symbolics.com.",
+    "Amazon was originally called Cadabra.",
+    "The first website is still online and can be visited at info.cern.ch.",
+    "The first 1TB hard drive was introduced by Hitachi in 2007.",
+    "The word \"robot\" comes from the Czech word \"robota,\" which means \"forced labor.\"",
+    "The original Xbox had a secret that played the sound of a crashing car if left on for too long.",
+    "The first webcam was used to monitor a coffee pot at Cambridge University.",
+    "The first video ever uploaded to YouTube was called \"Me at the zoo.\"",
+    "Apple's first logo featured Isaac Newton sitting under a tree.",
+    "The Apple Lisa was the first commercial computer with a graphical user interface.",
+    "The first portable computer was the IBM 5100, released in 1975.",
+    "The first 5MB hard drive weighed over a ton and was delivered by plane in 1956.",
+    "A single teaspoon of honey represents the life work of 12 bees.",
+    "There are more stars in the universe than grains of sand on all the Earth's beaches.",
+    "A day on Venus is longer than a year on Venus.",
+    "Water can boil and freeze at the same time in a process called the triple point.",
+    "The Great Wall of China is not visible from space with the naked eye.",
+    "Octopuses have three hearts.",
+    "Bananas are berries, but strawberries aren't.",
+    "The Eiffel Tower can be 15 cm taller during hot days.",
+    "A group of flamingos is called a \"flamboyance.\"",
+    "There are more possible iterations of a game of chess than there are atoms in the known universe.",
+    "Humans share 60% of their DNA with bananas.",
+    "A sneeze can travel up to 100 miles per hour.",
+    "The shortest war in history lasted 38 minutes between Britain and Zanzibar in 1896.",
+    "Hot water freezes faster than cold water, known as the Mpemba effect.",
+    "Lightning can heat the air to around 30,000 degrees Celsius, five times hotter than the surface of the Sun.",
+    "The speed of light in a vacuum is approximately 299,792 kilometers per second.",
+    "The Earth's core is as hot as the surface of the Sun.",
+    "A single human brain generates more electrical impulses in a day than all the phones in the world combined.",
+    "The Milky Way galaxy is on a collision course with the Andromeda galaxy.",
+    "The DNA in a single human cell contains about 3 billion base pairs.",
+    "The Konami Code (Up, Up, Down, Down, Left, Right, Left, Right, B, A) is one of the most famous cheat codes in gaming history.",
+    "The first video game ever created was \"Tennis for Two\" in 1958.",
+    "Mario was originally known as \"Jumpman\" in Donkey Kong.",
+    "The longest video game marathon lasted over 138 hours.",
+    "The character Sonic the Hedgehog was named after a programming term, \"SONIC,\" which means \"Sound on IC.\"",
+    "The best-selling video game of all time is \"Minecraft.\"",
+    "\"Pac-Man\" was inspired by a pizza with a missing slice.",
+    "The first gaming console was the Magnavox Odyssey, released in 1972.",
+    "The \"Easter egg\" term in gaming originated from the 1979 game \"Adventure.\"",
+    "The highest score ever achieved in \"Pac-Man\" is 3,333,360 points.",
+    "\"The Legend of Zelda: Ocarina of Time\" is often considered one of the greatest games of all time.",
+    "The character Lara Croft from \"Tomb Raider\" was originally named Laura Cruz.",
+    "\"Final Fantasy VII\" was the first game in the series to use 3D computer graphics.",
+    "\"Space Invaders\" was so popular in Japan that it caused a shortage of 100-yen coins.",
+    "The sound of the opening of the chest in \"The Legend of Zelda\" series is one of the most recognizable sound effects in gaming.",
+    "The game \"World of Warcraft\" has over 100 million registered accounts.",
+    "The character \"Kirby\" was named after a lawyer who defended Nintendo in a lawsuit.",
+    "The game \"Grand Theft Auto V\" grossed over $1 billion in its first three days.",
+    "The character Mega Man is known as \"Rockman\" in Japan.",
+    "\"Pong,\" one of the first arcade video games, was released by Atari in 1972.",
+    "The Millennium Falcon from Star Wars was partly modeled after a hamburger.",
+    "\"E.T. the Extra-Terrestrial\" was one of the highest-grossing movies of the 1980s.",
+    "The phrase \"Beam me up, Scotty\" was never actually said in the original Star Trek series.",
+    "The \"Star Wars\" lightsaber sound effect was created by combining the hum of an old television and the buzz of a film projector.",
+    "The character Yoda was originally going to be played by a monkey wearing a mask.",
+    "The original name of \"Toy Story\" was \"You Are a Toy.\"",
+    "The sound of a TIE fighter in \"Star Wars\" was created by combining an elephant's bellow and a car driving on wet pavement.",
+    "The DeLorean in \"Back to the Future\" was almost a refrigerator.",
+    "The \"Harry Potter\" series has been translated into over 80 languages.",
+    "The first televised science fiction show was \"The Queen's Messenger\" in 1928.",
+    "The \"Jurassic Park\" T-Rex roar is a combination of dog, penguin, tiger, alligator, and elephant sounds.",
+    "\"Doctor Who\" is the longest-running sci-fi TV show in the world.",
+    "The character \"Wolverine\" was almost an actual wolverine before becoming the iconic mutant.",
+    "The code in \"The Matrix\" is actually recipes for sushi.",
+    "\"The X-Files\" was originally going to be called \"The Sex Files.\"",
+    "The character \"Buzz Lightyear\" from \"Toy Story\" was named after astronaut Buzz Aldrin.",
+    "The \"Star Trek\" communicator inspired the design of the first mobile phone.",
+    "The \"Lord of the Rings\" trilogy was shot entirely in New Zealand.",
+    "\"The Simpsons\" is the longest-running American sitcom and animated program.",
+    "The character \"Spock\" from Star Trek was originally going to be red-skinned with a plate in the middle of his stomach.",
+    "There are 10^82 atoms in the observable universe.",
+    "The number pi (π) has been calculated to over one trillion digits beyond its decimal point.",
+    "The Fibonacci sequence appears in many natural phenomena, from the arrangement of leaves on a stem to the branching of trees.",
+    "A googol is a 1 followed by 100 zeros; a googolplex is a 1 followed by a googol zeros.",
+    "Euler's identity is often cited as the most beautiful equation in mathematics: e^(iπ) + 1 = 0.",
+    "The speed of light is the ultimate speed limit in the universe, according to Einstein's theory of relativity.",
+    "Quantum entanglement means that particles can instantaneously affect each other, no matter the distance between them.",
+    "Schrödinger's cat is a thought experiment that illustrates the concept of superposition in quantum mechanics.",
+    "The four fundamental forces in the universe are gravity, electromagnetism, the weak nuclear force, and the strong nuclear force.",
+    "The Pythagorean theorem states that in a right-angled triangle, the square of the hypotenuse is equal to the sum of the squares of the other two sides.",
+    "The Large Hadron Collider (LHC) is the world's largest and most powerful particle accelerator.",
+    "Black holes are so dense that not even light can escape their gravitational pull.",
+    "The Heisenberg uncertainty principle states that it is impossible to know both the position and momentum of a particle simultaneously.",
+    "A light-year is the distance that light travels in one year, approximately 5.88 trillion miles.",
+    "The Planck length is the smallest measurable length, about 1.6 x 10^-35 meters.",
+    "The gravitational constant (G) is one of the fundamental constants of nature, crucial in the calculation of gravitational force.",
+    "The Drake equation estimates the number of active, communicative extraterrestrial civilizations in the Milky Way galaxy.",
+    "String theory proposes that fundamental particles are not points but rather one-dimensional strings.",
+    "Dark matter and dark energy make up about 95% of the total mass-energy content of the universe.",
+    "The multiverse theory suggests the existence of multiple universes beyond our own."
+      // Add more facts here...
+    ];
+    const shortPoems = [
+    "Roses are red,\nViolets are blue,\nSugar is sweet,\nAnd so are you.",
+    "The early bird gets the worm,\nBut the second mouse gets the cheese,\nIn life's little game of chance,\nIt's okay to take it at ease.",
+    "A little bird in the sky,\nDropped a message from way up high,\nIt said you're awesome, oh my, oh my,\nSpread your wings and give life a try.",
+    "In the garden of my mind,\nThoughts of joy are what you'll find,\nWatered with laughter, fed with kind,\nA blooming heart of a special kind.",
+    "Twinkle, twinkle, little star,\nHow I wonder what you are,\nUp above the world so high,\nLike a diamond in the sky.",
+    "Life is but a fleeting song,\nSing it loud, sing it long,\nDance along the journey's path,\nAnd don't forget to laugh.",
+    "Butterflies dance in the summer sun,\nSpreading joy and having fun,\nWith colors bright and wings so light,\nThey remind us life’s all right.",
+    "A cat sat on the mat,\nWith a smile like a Cheshire,\nPurring gently, feeling fat,\nDreaming of a cozy fire.",
+    "On a moonlit night so clear,\nThe stars whisper in your ear,\nTales of dreams both far and near,\nFilling hearts with gentle cheer.",
+    "The waves crash upon the shore,\nSinging songs forevermore,\nNature’s lullaby, a tranquil roar,\nLeaving us wanting more.",
+    "Bubbles floating in the air,\nPopping here and popping there,\nLittle bursts of fun and flair,\nWith each one, we lose a care.",
+    "A kite soaring in the breeze,\nGliding high above the trees,\nTethered tight, it flies with ease,\nA dance with wind that aims to please.",
+    "In a meadow, green and bright,\nSunflowers sway in golden light,\nFaces turned towards the height,\nChasing warmth from dawn to night.",
+    "A laugh, a giggle, a little grin,\nHappiness bubbles from within,\nJoyful hearts, let’s begin,\nTo cherish life, through thick and thin.",
+    "The moon hangs low, a silvery hue,\nGuiding dreams the whole night through,\nWith stars like diamonds, a sparkling crew,\nEmbracing night with a gentle view.",
+    "Snowflakes fall, a gentle touch,\nEach unique, they mean so much,\nCovering earth with a soft hush,\nIn winter’s cold, there’s warmth in such.",
+    "A rainbow arcs across the sky,\nColors bright to catch the eye,\nA promise made, a beauty high,\nA bridge of hope that we can't deny.",
+    "The wind whispers through the trees,\nA symphony of rustling leaves,\nNature’s song, a calming breeze,\nBringing minds and hearts to ease.",
+    "In a field of daisies white,\nChildren play from morning’s light,\nLaughter ringing pure and bright,\nIn simple joys, they find delight.",
+    "The morning sun peeks over hills,\nBringing warmth, dispelling chills,\nWith each new day, our hope refills,\nLife's grand journey, with all its thrills.",
+    "A puppy’s eyes, so big and round,\nA wagging tail, a joyful sound,\nIn their love, a treasure found,\nHappiness that knows no bound.",
+    "The river flows, a gentle stream,\nWhispering tales like in a dream,\nLife’s journey, not as harsh as it may seem,\nFinding peace within the gleam.",
+    "Raindrops tap on window panes,\nSinging songs in soft refrains,\nNature’s music in gentle rains,\nWashing away all life’s pains.",
+    "A balloon floats to the sky,\nCarrying dreams to fly so high,\nUp and up, it says goodbye,\nTo reach the stars, we too can try.",
+    "In the forest, shadows play,\nDancing leaves in a ballet,\nNature’s theatre, night and day,\nIn its beauty, we find our way.",
+    "A whisper of wind, a flutter of wings,\nBirds take flight as morning sings,\nA symphony of natural things,\nBringing peace and joy it brings.",
+    "The ocean’s call, a siren song,\nDrawing hearts where they belong,\nIn its depths, where dreams are strong,\nNature’s beauty, pure and long.",
+    "A smile is a curve that sets things straight,\nA tiny spark that opens the gate,\nTo hearts and minds, it's never too late,\nTo spread the joy and celebrate.",
+    "In the glow of fireflies,\nSummer nights and starry skies,\nMagic moments, no goodbyes,\nCaptured in our dreamy eyes.",
+    "The mountains stand so tall and proud,\nTheir peaks piercing through the cloud,\nIn their shadow, we are wowed,\nNature’s might, forever vowed.",
+    "A rainbow trout in a bubbling brook,\nDodging hooks with a wily look,\nNature’s swimmer, by the book,\nIn its dance, a peaceful nook.",
+    "A single seed in fertile ground,\nWith care and love, a tree is found,\nReaching heights that astound,\nLife’s circle, forever bound.",
+    "An owl hoots in the midnight hour,\nA guardian in a moonlit tower,\nWisdom flows, a gentle power,\nGuiding us through night’s bower.",
+    "The desert sands, a golden sea,\nWhispers of eternity,\nA land of dreams where spirits flee,\nIn its silence, we find the key.",
+    "The sunrise paints the sky with gold,\nA story of a day untold,\nWith every hue, a tale unfolds,\nA new adventure to behold.",
+    "The meadowlark sings its song,\nA melody both clear and strong,\nIn nature’s choir, we belong,\nWith hearts in tune, we can't go wrong.",
+    "The stars above, a cosmic dance,\nIn their light, we find our chance,\nTo dream and wish, to take a stance,\nIn their beauty, we enhance.",
+    "The snowman stands in winter’s chill,\nA frozen friend on the hill,\nWith carrot nose and smile still,\nA testament to childhood’s thrill.",
+    "A dragonfly with wings so bright,\nDances in the summer light,\nA fleeting glimpse, a pure delight,\nNature’s jewel, a wondrous sight.",
+    "The rainbows end, a pot of gold,\nLegends of the tales of old,\nIn every heart, these dreams are sold,\nTo seek adventure, to be bold.",
+    "Butterflies in a gentle dance,\nLife’s fleeting beauty in a glance,\nA symbol of a second chance,\nIn their flight, our hearts enhance.",
+    "A lighthouse stands in stormy seas,\nGuiding ships with utmost ease,\nA beacon of hope, a promise of peace,\nIn its light, worries cease.",
+    "A snowflake lands upon your nose,\nEach unique, as winter shows,\nIn its design, beauty flows,\nNature’s art in silent pose.",
+    "The fire crackles in the night,\nA warm embrace, a soft light,\nStories told in the quiet night,\nIn these moments, hearts take flight.",
+    "The garden blooms in colors bright,\nEach flower reaching for the light,\nA symphony of nature’s might,\nIn its splendor, pure delight.",
+    "A paper boat in a rain-filled stream,\nSailing softly like a dream,\nA childhood memory, supreme,\nIn simple joys, life’s theme.",
+    "The eagle soars in skies so blue,\nWith strength and grace, a noble view,\nIn its flight, our spirits renew,\nTo rise above, to see it through.",
+    "The autumn leaves in hues of gold,\nA final dance, a story told,\nIn their beauty, we behold,\nNature’s art, a sight to mold.",
+    "A shooting star in the night sky,\nA fleeting wish as it flies by,\nIn its light, hopes amplify,\nA moment’s magic, a silent sigh.",
+    "The morning dew on blades of grass,\nA sparkling jewel that will not last,\nIn nature’s hand, a spell is cast,\nA fleeting glimpse of the past.",
+    "The dolphin leaps in ocean’s spray,\nWith joyful heart, it leads the way,\nIn its dance, we find our play,\nA reminder to seize the day.",
+    "A campfire burns, the wood it cracks,\nStories shared in the night’s tracks,\nWith every spark, a bond it packs,\nIn these moments, no one lacks.",
+    "The bumblebee in flowers bright,\nBusy buzzing from dawn to night,\nIn its toil, there’s pure delight,\nNature’s worker, a wondrous sight.",
+    "The mountain stream, a crystal flow,\nThrough rocky paths, it finds its glow,\nIn its journey, we come to know,\nLife’s twists and turns help us grow.",
+    "The ladybug on a leaf of green,\nA tiny traveler, often unseen,\nIn its spots, a life serene,\nA small wonder, a nature’s queen.",
+    "The lion roars in the African plain,\nA mighty call through sun and rain,\nIn its strength, we break our chain,\nTo find our courage, to ease our pain.",
+    "The cherry blossoms bloom in spring,\nA fleeting beauty, a tender thing,\nIn their petals, hearts take wing,\nA celebration, a song to sing.",
+    "A whisper of wind through the trees,\nA gentle sway, a calming breeze,\nIn its breath, all worries cease,\nNature’s lullaby brings peace."
+      // Add more poems here...
+    ];
+
+    const sequence = ['fact', 'joke', 'poem'];
+    let currentIndex = 0;
+
+    // Function to handle random text display
+    const displayRandomText = () => {
+      const textType = sequence[currentIndex];
+      let textContent = '';
+
+      if (textType === 'joke') {
+        textContent = dadJokes[Math.floor(Math.random() * dadJokes.length)];
+      } else if (textType === 'fact') {
+        textContent = geekyFacts[Math.floor(Math.random() * geekyFacts.length)];
+      } else if (textType === 'poem') {
+        textContent = shortPoems[Math.floor(Math.random() * shortPoems.length)];
+      }
+
+      // Update the index for the next type
+      currentIndex = (currentIndex + 1) % sequence.length;
+
+      const dynamicText = document.getElementById("dynamic-text");
+      dynamicText.innerHTML = textContent;
+      dynamicText.style.display = "block";
+    };
+
+    // Initial animations
+    currentAnimation1 = new DotLottie({
+      autoplay: true,
+      loop: true,
+      canvas: document.getElementById("canvas1"),
+      src: "https://lottie.host/95c381db-5a21-4768-bd7a-c4dc43b7c49b/o8cvNVPVzn.json",
+      scale: "fit",
+      scaleMode: "both",
+    });
+
+    document.getElementById("canvas1").addEventListener("click", () => {
+      currentAnimation1.destroy();
+      document.getElementById("canvas1").style.display = "none";
+      document.getElementById("surprise-text").style.display = "none";
+      document.getElementById("canvas2").style.display = "block";
+      document.getElementById("text").style.display = "none";
+
+      currentAnimation2 = new DotLottie({
+        autoplay: true,
+        loop: false,
+        canvas: document.getElementById("canvas2"),
+        src: "https://lottie.host/0e0ba1fb-2475-4350-a3c2-d0aad6dd8661/SltYwtvnLq.json",
+      });
+
+      setTimeout(() => {
+        currentAnimation2.destroy();
+        document.getElementById("canvas2").style.display = "none";
+        document.getElementById("canvas3").style.display = "block";
+
+        currentAnimation3 = new DotLottie({
+          autoplay: true,
+          loop: false,
+          canvas: document.getElementById("canvas3"),
+          src: "https://lottie.host/8290e6e5-90f0-4c4e-ad6e-2e792bbe901a/WdKLRhhAZg.json",
+        });
+
+        currentAnimation3.addEventListener("complete", displayRandomText);
+      }, 2680);
+    });
+  </script>
+</body>
+</html>
