@@ -16,7 +16,8 @@
 Check out the new, updated version of our "404 Fun" project! This innovative idea transforms boring 404 error pages into a source of entertainment, adding value to both users and website owners alike. Our fully responsive design ensures a flawless experience, even when maintaining the 800x800 px format.
 
 
-<span style="color:red;"># This text is red.</span>
+&nbsp;
+
 ## Here’s why "404 Fun" stands out:
 
 1. **Enhanced User Experience**:  No more frustration! With engaging content like jokes, fun facts, or poems, users encountering a missing page will still leave with a smile.
@@ -29,3 +30,10 @@ Check out the new, updated version of our "404 Fun" project! This innovative ide
 9. **Crisis Management**:  Keep visitors happy even when things go wrong. A lighthearted 404 page can defuse negative emotions and keep users engaged.
 
 "404 Fun" transforms a typically negative experience into a delightful one, helping to create a positive, memorable interaction for users.  Visit the live website to see it in action!
+
+
+## Socials
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2.svg?style=for-the-badge&logo=LinkedIn&logoColor=white)](https://www.linkedin.com/in/dev-swati/)
+[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](github.com/swatified)
+
