@@ -16,6 +16,7 @@
 Check out the new, updated version of our "404 Fun" project! This innovative idea transforms boring 404 error pages into a source of entertainment, adding value to both users and website owners alike. Our fully responsive design ensures a flawless experience, even when maintaining the 800x800 px format.
 
 
+<span style="color:red;"># This text is red.</span>
 ## Here’s why "404 Fun" stands out:
 
 1. **Enhanced User Experience**:  No more frustration! With engaging content like jokes, fun facts, or poems, users encountering a missing page will still leave with a smile.
