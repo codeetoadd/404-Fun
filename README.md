@@ -12,7 +12,7 @@ Check out the new, updated version of our "404 Fun" project! This innovative ide
 
 ## Here’s why "404 Fun" stands out:
 
-1. **<u>Enhanced User Experience</u>**:  No more frustration! With engaging content like jokes, fun facts, or poems, users encountering a missing page will still leave with a smile.
+1. <u>Enhanced User Experience</u>:  No more frustration! With engaging content like jokes, fun facts, or poems, users encountering a missing page will still leave with a smile.
 2. **Boosted Engagement**:  Instead of bouncing away, visitors are more likely to stay and explore, reducing bounce rates and keeping users on your site longer.
 3. **Showcase Your Brand’s Personality**:  Inject humor and creativity into your brand! A witty 404 page can make our brand more relatable, improving perception and loyalty.
 4. **SEO Benefits**:  By keeping users engaged and reducing bounce rates, a well-crafted 404 page can positively impact commudle's search engine rankings.
